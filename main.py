@@ -14,10 +14,10 @@ app.add_middleware(
 )
 
 # Airtable Configuration
-AIRTABLE_API_KEY="pat9W9f13p1LvD6db.a41c444b784d5409e9b8a2482a3f14c7f04a9893b7033e815b1418fd974caf85"
+AIRTABLE_API_KEY = "pat9W9f13p1LvD6db.a41c444b784d5409e9b8a2482a3f14c7f04a9893b7033e815b1418fd974caf85"
 AIRTABLE_BASE_ID = "appFb4bEEgtc3f8Bw"
 AIRTABLE_TABLE_NAME = "Passengers"
-AIRTABLE_URL=f"https://api.airtable.com/v0/{AIRTABLE_BASE_ID}/{AIRTABLE_TABLE_NAME}"
+AIRTABLE_URL = f"https://api.airtable.com/v0/{AIRTABLE_BASE_ID}/{AIRTABLE_TABLE_NAME}"
 
 HEADERS = {
     "Authorization": f"Bearer {AIRTABLE_API_KEY}",
@@ -46,16 +46,15 @@ async def find_passenger(request: Request):
         return {"error": "Passenger not found"}
 
     fields = records[0]["fields"]
-   return {
-    "seat": fields.get("Seat Number", ""),
-    "meal": fields.get("Meal Preference", ""),
-    "gate": fields.get("Gate", ""),
-    "terminal": fields.get("Terminal", ""),
-    "boarding_time": fields.get("Boarding Time", ""),
-    "flight_number": fields.get("Flight Number", ""),
-    "destination": fields.get("Arrival City (from Flight)", "")
-}
-
+    return {
+        "seat": fields.get("Seat Number", ""),
+        "meal": fields.get("Meal Preference", ""),
+        "gate": fields.get("Gate", ""),
+        "terminal": fields.get("Terminal", ""),
+        "boarding_time": fields.get("Boarding Time", ""),
+        "flight_number": fields.get("Flight Number", ""),
+        "destination": fields.get("Arrival City (from Flight)", "")
+    }
 
 # 2. Update Meal
 @app.post("/update-meal")
@@ -119,6 +118,8 @@ async def check_in(request: Request):
         "boarding_time": fields.get("Boarding Time", ""),
         "boarding_pass_url": boarding_pass_url
     }
+
+# Run the app
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000)
