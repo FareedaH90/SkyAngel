@@ -1,6 +1,7 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from datetime import datetime
+from dotenv import load_dotenv
+import os
 import requests
 
 app = FastAPI()
@@ -13,10 +14,10 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# Airtable Configuration
-AIRTABLE_API_KEY = "pat9W9f13p1LvD6db.a41c444b784d5409e9b8a2482a3f14c7f04a9893b7033e815b1418fd974caf85"
-AIRTABLE_BASE_ID = "appFb4bEEgtc3f8Bw"
-AIRTABLE_TABLE_NAME = "Passengers"
+# Retrieve secrets from environment
+AIRTABLE_API_KEY = os.getenv("AIRTABLE_API_KEY")
+AIRTABLE_BASE_ID = os.getenv("AIRTABLE_BASE_ID")
+AIRTABLE_TABLE_NAME = os.getenv("AIRTABLE_TABLE_NAME")
 AIRTABLE_URL = f"https://api.airtable.com/v0/{AIRTABLE_BASE_ID}/{AIRTABLE_TABLE_NAME}"
 
 HEADERS = {
