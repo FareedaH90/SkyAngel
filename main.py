@@ -46,15 +46,16 @@ async def find_passenger(request: Request):
         return {"error": "Passenger not found"}
 
     fields = records[0]["fields"]
-    return {
-        "seat": fields.get("Seat Number", ""),
-        "meal": fields.get("Meal Preference", ""),
-        "gate": fields.get("Gate", ""),
-        "terminal": fields.get("Terminal", ""),
-        "boarding_time": fields.get("Boarding Time", ""),
-        "flight_number": fields.get("Flight", ""),
-        "destination": fields.get("Arrival City (from Flight)", "")
-    }
+   return {
+    "seat": fields.get("Seat Number", ""),
+    "meal": fields.get("Meal Preference", ""),
+    "gate": fields.get("Gate", ""),
+    "terminal": fields.get("Terminal", ""),
+    "boarding_time": fields.get("Boarding Time", ""),
+    "flight_number": fields.get("Flight Number", ""),
+    "destination": fields.get("Arrival City (from Flight)", "")
+}
+
 
 # 2. Update Meal
 @app.post("/update-meal")
