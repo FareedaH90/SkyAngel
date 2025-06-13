@@ -84,6 +84,14 @@ async def find_passenger(request: Request):
         "destination": fields.get("Arrival City (from Flight)", "")
     }
 
+
+print("🧪 PNR:", pnr)
+print("🧪 Base ID:", AIRTABLE_BASE_ID)
+print("🧪 Table Name:", AIRTABLE_TABLE_NAME)
+print("🧪 URL:", f"{AIRTABLE_URL}?filterByFormula={formula}")
+print("🧪 Headers:", HEADERS)
+print("🧪 Formula:", formula)
+
 # 2. Update Meal
 @app.post("/update-meal")
 async def update_meal(request: Request):
