@@ -63,12 +63,11 @@ async def find_passenger(request: Request):
     name = data.get("name", "").strip()
     pnr = data.get("pnr", "").strip().upper()
 
-    formula = f"PNR = '{pnr}'"
+    formula = f"AND({{Full Name}} = '{name}', PNR = '{pnr}')"
 
-    print("🧪 PNR:", pnr)
     print("🧪 Name:", name)
-    print("🧪 Base ID:", AIRTABLE_BASE_ID)
-    print("🧪 Table Name:", AIRTABLE_TABLE_NAME)
+    print("🧪 PNR:", pnr)
+    print("🧪 Formula:", formula)
     print("🧪 URL:", f"{AIRTABLE_URL}?filterByFormula={formula}")
     print("🧪 Headers:", HEADERS)
 
