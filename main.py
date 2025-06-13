@@ -32,14 +32,15 @@ def get_record_id_by_pnr(pnr: str):
     records = response.json().get("records", [])
     return records[0]["id"] if records else None
 
-# 1. Find Passenger by Full Name + PNR
 @app.post("/find-passenger")
 async def find_passenger(request: Request):
     data = await request.json()
     name = data.get("name", "").strip()
     pnr = data.get("pnr", "").strip().upper()
 
-    formula = f"AND({{Full Name}}='{name}', PNR='{pnr}')"
+    # 👇 Safer, case-insensitive name match
+    formula = f"AND(LOWER({{Full Name}}) = '{name.lower()}', PNR = '{pnr}')"
+    
     response = requests.get(f"{AIRTABLE_URL}?filterByFormula={formula}", headers=HEADERS)
     records = response.json().get("records", [])
 
@@ -56,6 +57,7 @@ async def find_passenger(request: Request):
         "flight_number": fields.get("Flight Number", ""),
         "destination": fields.get("Arrival City (from Flight)", "")
     }
+
 
 # 2. Update Meal
 @app.post("/update-meal")
