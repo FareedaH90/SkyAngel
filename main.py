@@ -63,13 +63,19 @@ async def find_passenger(request: Request):
     name = data.get("name", "").strip()
     pnr = data.get("pnr", "").strip().upper()
 
-    # TEMP: only match by PNR
     formula = f"PNR = '{pnr}'"
-    print(f"🧪 Testing formula: {formula}")
+
+    print("🧪 PNR:", pnr)
+    print("🧪 Name:", name)
+    print("🧪 Base ID:", AIRTABLE_BASE_ID)
+    print("🧪 Table Name:", AIRTABLE_TABLE_NAME)
+    print("🧪 URL:", f"{AIRTABLE_URL}?filterByFormula={formula}")
+    print("🧪 Headers:", HEADERS)
 
     response = requests.get(f"{AIRTABLE_URL}?filterByFormula={formula}", headers=HEADERS)
-    records = response.json().get("records", [])
+    print("🧪 Raw Airtable response:", response.text)
 
+    records = response.json().get("records", [])
     if not records:
         return {"error": "Passenger not found"}
 
@@ -83,14 +89,6 @@ async def find_passenger(request: Request):
         "flight_number": fields.get("Flight Number", ""),
         "destination": fields.get("Arrival City (from Flight)", "")
     }
-
-
-print("🧪 PNR:", pnr)
-print("🧪 Base ID:", AIRTABLE_BASE_ID)
-print("🧪 Table Name:", AIRTABLE_TABLE_NAME)
-print("🧪 URL:", f"{AIRTABLE_URL}?filterByFormula={formula}")
-print("🧪 Headers:", HEADERS)
-print("🧪 Formula:", formula)
 
 # 2. Update Meal
 @app.post("/update-meal")
