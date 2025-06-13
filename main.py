@@ -32,14 +32,41 @@ def get_record_id_by_pnr(pnr: str):
     records = response.json().get("records", [])
     return records[0]["id"] if records else None
 
+# @app.post("/find-passenger")
+# async def find_passenger(request: Request):
+#     data = await request.json()
+#     name = data.get("name", "").strip()
+#     pnr = data.get("pnr", "").strip().upper()
+
+#     formula = f"AND(LOWER({{Full Name}}) = '{name.lower()}', PNR = '{pnr}')"
+#     print(f" Formula used: {formula}")  
+#     response = requests.get(f"{AIRTABLE_URL}?filterByFormula={formula}", headers=HEADERS)
+#     records = response.json().get("records", [])
+
+#     if not records:
+#         return {"error": "Passenger not found"}
+
+#     fields = records[0]["fields"]
+#     return {
+#         "seat": fields.get("Seat Number", ""),
+#         "meal": fields.get("Meal Preference", ""),
+#         "gate": fields.get("Gate", ""),
+#         "terminal": fields.get("Terminal", ""),
+#         "boarding_time": fields.get("Boarding Time", ""),
+#         "flight_number": fields.get("Flight Number", ""),
+#         "destination": fields.get("Arrival City (from Flight)", "")
+#     }
+
 @app.post("/find-passenger")
 async def find_passenger(request: Request):
     data = await request.json()
     name = data.get("name", "").strip()
     pnr = data.get("pnr", "").strip().upper()
 
-    formula = f"AND(LOWER({{Full Name}}) = '{name.lower()}', PNR = '{pnr}')"
-    print(f" Formula used: {formula}")  
+    # TEMP: only match by PNR
+    formula = f"PNR = '{pnr}'"
+    print(f"🧪 Testing formula: {formula}")
+
     response = requests.get(f"{AIRTABLE_URL}?filterByFormula={formula}", headers=HEADERS)
     records = response.json().get("records", [])
 
@@ -56,7 +83,6 @@ async def find_passenger(request: Request):
         "flight_number": fields.get("Flight Number", ""),
         "destination": fields.get("Arrival City (from Flight)", "")
     }
-
 
 # 2. Update Meal
 @app.post("/update-meal")
