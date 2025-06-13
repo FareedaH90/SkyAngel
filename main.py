@@ -38,9 +38,8 @@ async def find_passenger(request: Request):
     name = data.get("name", "").strip()
     pnr = data.get("pnr", "").strip().upper()
 
-    # 👇 Safer, case-insensitive name match
     formula = f"AND(LOWER({{Full Name}}) = '{name.lower()}', PNR = '{pnr}')"
-    
+    print(f" Formula used: {formula}")  
     response = requests.get(f"{AIRTABLE_URL}?filterByFormula={formula}", headers=HEADERS)
     records = response.json().get("records", [])
 
